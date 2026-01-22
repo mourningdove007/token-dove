@@ -1,7 +1,5 @@
 <script>
   import { Connection, PublicKey, clusterApiUrl, LAMPORTS_PER_SOL } from "@solana/web3.js";
-  import { Canvas } from '@threlte/core'
-  import Scene from './Scene.svelte'
 
   let publicKeyInput = "";
   let transactions = [];
@@ -59,20 +57,6 @@
 </script>
 
 <style>
-
-  .scene-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-}
-
-.ui-container {
-  position: relative;
-  z-index: 10; /* above the canvas */
-}
 
   h1 {
     text-align: center;
@@ -134,12 +118,6 @@
   }
 </style>
 
-  <div class="scene-container">
-  <Canvas>
-    <Scene/>
-  </Canvas>
-</div>
-<div class="ui-container">
 <h1>Solana Devnet Ledger</h1>
 
 <div class="controls">
@@ -167,5 +145,4 @@
 
 <div class="footer">
   <a href="https://github.com/mourningdove007/token-dove" target="_blank">Token Dove</a> • Devnet Edition • Printed from the Solana blockchain
-</div>
 </div>
