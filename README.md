@@ -6,6 +6,15 @@
 
 The application is available on [tokendove.web.app](https://tokendove.web.app/). Simply type in a public key from the Solana Devnet and click submit. The transaction history will be displayed below.
 
+## Development
+
+Run the application locally using `npm run dev`. The application can be built and deployed using firebase.
+
+```
+npm run build
+firebase deploy
+```
+
 ## Overview
 
 **Token Dove** is an open-source, browser-based Solana wallet dashboard that allows users to connect their wallet and view recent on-chain activity. This project is designed to be **privacy-first and cost-free**, keeping all interactions in the user's wallet and browser.
