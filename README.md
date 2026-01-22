@@ -4,7 +4,7 @@
 
 ---
 
-The application is available on [tokendove.web.app](https://tokendove.web.app/). Simply type in a public key from the Solana Devnet and click submit. The transaction history will be displayed below.
+The application is available on [tokendove.com](https://tokendove.com/). Simply type in a public key from the Solana Devnet and click submit. The transaction history will be displayed below.
 
 ## Development
 
