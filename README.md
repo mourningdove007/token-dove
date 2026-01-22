@@ -49,3 +49,17 @@ This repository is the first step toward a broader vision: a **platform for in-b
 - **Solana RPC** for transaction data  
 - **Phantom Wallet** for wallet integration  
 - **Firebase Hosting** for deployment  
+
+
+## Development
+
+Run the application locally using `npm run dev`. The application can be built and deployed using firebase.
+
+```
+npm run build
+firebase deploy
+```
+
+## Next Steps
+
+Authenticate with Phantom Wallet: [Source](https://docs.phantom.com/phantom-portal/verify-domain).
