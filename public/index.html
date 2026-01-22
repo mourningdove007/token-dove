@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Token Dove - Transaction Ledger</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Libre+Baskerville&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: #f7f3e9;
+      color: #1f1f1f;
+      font-family: 'Libre Baskerville', serif;
+      padding: 40px;
+      max-width: 900px;
+      margin: auto;
+      line-height: 1.8;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      border-bottom: 3px solid #1f1f1f;
+      padding-bottom: 10px;
+      margin-bottom: 30px;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    .controls {
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.95rem;
+      border: 1px solid #333;
+      background: #fbf9f4;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px 18px;
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.9rem;
+      border: 1px solid #333;
+      background: #e6e1d6;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #d9d2c3;
+    }
+
+    .transaction {
+      margin-bottom: 25px;
+      white-space: pre-line;
+      word-break: break-all; /* forces long strings to wrap */
+  overflow-wrap: break-word; /* alternative / safer */
+    }
+
+    .tx-header {
+      font-weight: bold;
+      margin-bottom: 3px;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.75rem;
+      text-align: center;
+      color: #555;
+      border-top: 1px solid #999;
+      padding-top: 15px;
+    }
+
+    footer a {
+      color: #1f1f1f;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Solana Devnet Transaction Ledger</h1>
+
+  <div class="controls">
+    <input id="publicKeyInput" placeholder="Enter Solana public key"/>
+    <button id="fetchBtn">SUBMIT</button>
+  </div>
+
+  <div id="output">Awaiting dispatch…</div>
+
+  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+  <script>
+    const { Connection, PublicKey, clusterApiUrl, LAMPORTS_PER_SOL } = solanaWeb3;
+    const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+
+    document.getElementById("fetchBtn").onclick = async () => {
+      const output = document.getElementById("output");
+      const input = document.getElementById("publicKeyInput").value.trim();
+      output.innerHTML = "Fetching transactions… please wait";
+
+      try {
+        const publicKey = new PublicKey(input);
+
+        // Fetch recent signatures
+        const sigs = await connection.getSignaturesForAddress(publicKey, { limit: 5 });
+        if (!sigs.length) {
+          output.innerHTML = "No recent transactions found for this address.";
+          return;
+        }
+
+        const txDetails = [];
+        for (const sigInfo of sigs) {
+          const tx = await connection.getTransaction(sigInfo.signature, { commitment: "confirmed" });
+          if (tx) txDetails.push(tx);
+        }
+
+        let html = "";
+        for (const tx of txDetails) {
+          const blockTime = tx.blockTime ? new Date(tx.blockTime * 1000).toLocaleString() : "Unknown";
+          const signature = tx.transaction.signatures[0];
+          const preBalances = tx.meta.preBalances;
+          const postBalances = tx.meta.postBalances;
+          const keys = tx.transaction.message.accountKeys;
+
+          const instr = tx.transaction.message.instructions[0];
+          const fromIndex = instr.accounts[0];
+          const toIndex = instr.accounts[1] !== undefined ? instr.accounts[1] : instr.accounts[0];
+
+          const from = keys[fromIndex];
+          const to = keys[toIndex];
+          const amount = ((preBalances[fromIndex] - postBalances[fromIndex]) / LAMPORTS_PER_SOL).toFixed(6);
+
+          html += `
+            <div class="transaction">
+From: ${from}
+To: ${to}
+Amount (SOL): ${amount}
+Signature: ${signature}
+Time: ${blockTime}
+            </div>
+          `;
+        }
+
+        output.innerHTML = html;
+
+      } catch (err) {
+        output.innerHTML = "Error: " + err.message;
+      }
+    };
+  </script>
+
+  <footer>
+    <a href="https://github.com/mourningdove007/token-dove" target="_blank">Token Dove</a> • Devnet Edition • Printed from the Solana blockchain
+  </footer>
+
+</body>
+</html>
