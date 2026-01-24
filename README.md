@@ -4,7 +4,7 @@
 
 ---
 
-The application is available on [tokendove.com](https://tokendove.com/). Simply type in a public key from the Solana Devnet and click submit. The transaction history will be displayed below.
+The application is available on [tokendove.com](https://tokendove.com/). In the app's current form, users are able to sign in with their [Phantom](https://phantom.com/) wallet and view their transaction history on the Solana devnet.
 
 ## Development
 
