@@ -1,12 +1,19 @@
 <script>
     import { push } from "svelte-spa-router";
+    import { BROWSERSDK } from "../tools/universal";
+
+    const signOut = async () => {
+        await BROWSERSDK.disconnect();
+
+        push("/");
+    };
 
     const goToLedger = async () => {
         await push("/ledger");
     };
 </script>
 
-<button class="signOutButton">Sign Out</button>
+<button class="signOutButton" onclick={signOut}>Sign Out</button>
 
 <h2>Welcome</h2>
 <p>To view transaction history, please select from our avialable options below.</p>
