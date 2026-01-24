@@ -2,8 +2,22 @@
     import { BROWSERSDK } from "../tools/universal";
 
     const connectWallet = async () => {
+          let isMobile = false;
+          let addresses;
+
         try {
-            const addresses = await BROWSERSDK.connect({ provider: "google" });
+            const isSmall = window.innerWidth <= 768;
+            const isTouch =
+            "ontouchstart" in window ||
+            navigator.maxTouchPoints > 0;
+
+            isMobile = isSmall && isTouch;
+
+            if (isMobile) {
+            addresses = await BROWSERSDK.connect({ provider: "deeplink" });
+            } else {
+            addresses = await BROWSERSDK.connect({ provider: "google" });
+            }
             console.log("Connected addresses:", addresses);
         } catch {
             console.log("error signing in");
