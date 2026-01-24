@@ -55,6 +55,7 @@
 
     p {
         width: 500px;
+        text-align: left;
     }
 
     .footer {
