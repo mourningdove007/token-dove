@@ -2,18 +2,27 @@
     import { onMount } from "svelte";
     import { BROWSERSDK } from "../tools/universal";
 
-    export let signOut;
-
     import {
         Connection,
         PublicKey,
         clusterApiUrl,
         LAMPORTS_PER_SOL,
     } from "@solana/web3.js";
+    import { push } from "svelte-spa-router";
 
-    let publicKeyInput = "";
-    let transactions = [];
+    let publicKeyInput = $state("");
+    let transactions = $state([]);
     let error = "";
+
+    const signOut = async () => {
+        await BROWSERSDK.disconnect();
+
+        push("/");
+    };
+
+    const backHome = async () => {
+        await push("/home");
+    };
 
     const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
 
@@ -72,9 +81,13 @@
     }
 
     onMount(async () => {
+        await BROWSERSDK.connect({ provider: "google" });
+
         try {
             publicKeyInput = await BROWSERSDK.solana.getPublicKey();
-            if(publicKeyInput){await fetchTransactions();}
+            if (publicKeyInput) {
+                await fetchTransactions();
+            }
         } catch (e) {
             error = "Failed to load public key";
             console.error(e);
@@ -82,7 +95,10 @@
     });
 </script>
 
-<button onclick={signOut}>Sign Out</button>
+<div class="actions">
+    <button onclick={signOut}>Sign Out</button>
+    <button class="button2" onclick={backHome}>Back Home</button>
+</div>
 
 <h2>Transaction History</h2>
 
@@ -115,13 +131,26 @@
         text-align: left;
     }
 
+    .actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
     button {
-    display: flex;
-    justify-content: flex-end;
-    padding: 0.6rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+        margin: auto;
+        padding: 0.6rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .button2 {
+        margin: auto;
+        padding: 0.6rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 </style>
