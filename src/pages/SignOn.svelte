@@ -1,24 +1,13 @@
 <script>
+    import { push } from "svelte-spa-router";
     import { BROWSERSDK } from "../tools/universal";
 
     const connectWallet = async () => {
-          let isMobile = false;
-          let addresses;
-
         try {
-            const isSmall = window.innerWidth <= 768;
-            const isTouch =
-            "ontouchstart" in window ||
-            navigator.maxTouchPoints > 0;
+            const addresses = await BROWSERSDK.connect({ provider: "google" });
 
-            isMobile = isSmall && isTouch;
-
-            if (isMobile) {
-            addresses = await BROWSERSDK.connect({ provider: "deeplink" });
-            } else {
-            addresses = await BROWSERSDK.connect({ provider: "google" });
-            }
             console.log("Connected addresses:", addresses);
+            push("/home")
         } catch {
             console.log("error signing in");
         }
@@ -26,12 +15,18 @@
 </script>
 
 <h2>Token Dove</h2>
-<p>This is an <a href="https://github.com/mourningdove007/token-dove">open source project</a> with the end goal of providing videogame developers an easy platform for in game asset exchange. Currently, the app will allow a user to sign in with their Phantom wallet and view transaction history.</p>
-<button onclick={connectWallet}>
-    Sign In with Phantom
-</button>
-<p>Privacy Disclaimer: No personal information is collected as there is no backend. All information is owned by the user.</p>
-
+<p>
+    This is an <a href="https://github.com/mourningdove007/token-dove"
+        >open source project</a
+    > with the end goal of providing videogame developers an easy platform for in
+    game asset exchange. Currently, the app will allow a user to sign in with their
+    Phantom wallet and view transaction history.
+</p>
+<button onclick={connectWallet}> Sign In with Phantom </button>
+<p>
+    Privacy Disclaimer: No personal information is collected as there is no
+    backend. All information is owned by the user.
+</p>
 
 <div class="footer">
     <a href="https://github.com/mourningdove007/token-dove" target="_blank"
@@ -42,7 +37,7 @@
 <style>
     button {
         border-width: 2px;
-        border-color: rgb(171, 159, 242);;
+        border-color: rgb(171, 159, 242);
         gap: 0.5rem;
         display: inline-flex;
         align-items: center;

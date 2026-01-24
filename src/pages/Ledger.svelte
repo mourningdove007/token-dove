@@ -81,19 +81,7 @@
     }
 
     onMount(async () => {
-        let isMobile = false;
-        const isSmall = window.innerWidth <= 768;
-        const isTouch =
-        "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0;
-
-        isMobile = isSmall && isTouch;
-
-        if (isMobile) {
-        await BROWSERSDK.connect({ provider: "deeplink" });
-        } else {
         await BROWSERSDK.connect({ provider: "google" });
-        }
 
         try {
             publicKeyInput = await BROWSERSDK.solana.getPublicKey();

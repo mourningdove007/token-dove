@@ -2,7 +2,7 @@
 import { BrowserSDK, AddressType } from "@phantom/browser-sdk";
 
 export const BROWSERSDK = new BrowserSDK({
-  providers: ["apple", "google", "deeplink"], 
+  providers: ["apple", "google"], 
   addressTypes: [AddressType.solana, AddressType.ethereum],
   authOptions: {
     redirectUrl: "https://tokendove.com/#/home",
