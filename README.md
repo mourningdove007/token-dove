@@ -12,7 +12,6 @@ Run the application locally using `npm run dev`. The application can be built an
 
 ```
 npm run build
-firebase deploy
 ```
 
 ## Overview
@@ -27,9 +26,7 @@ This repository is the first step toward a broader vision: a **platform for in-b
 
 - Connect to Solana wallets (Phantom)  
 - Display wallet address  
-- Fetch and list the last 10 transactions  
-- Show SOL balance change per transaction  
-- Open transactions directly in Solscan  
+- Fetch and list the transactions  
 
 ---
 
@@ -49,17 +46,3 @@ This repository is the first step toward a broader vision: a **platform for in-b
 - **Solana RPC** for transaction data  
 - **Phantom Wallet** for wallet integration  
 - **Firebase Hosting** for deployment  
-
-
-## Development
-
-Run the application locally using `npm run dev`. The application can be built and deployed using firebase.
-
-```
-npm run build
-firebase deploy
-```
-
-## Next Steps
-
-Authenticate with Phantom Wallet: [Source](https://docs.phantom.com/phantom-portal/verify-domain).
