@@ -7,7 +7,7 @@
             const addresses = await BROWSERSDK.connect({ provider: "google" });
 
             console.log("Connected addresses:", addresses);
-            push("/home")
+            push("/home");
         } catch {
             console.log("error signing in");
         }
@@ -28,12 +28,6 @@
     backend. All information is owned by the user.
 </p>
 
-<div class="footer">
-    <a href="https://github.com/mourningdove007/token-dove" target="_blank"
-        >Token Dove</a
-    > • Devnet Edition • Printed from the Solana blockchain
-</div>
-
 <style>
     button {
         border-width: 2px;
@@ -51,15 +45,5 @@
     p {
         width: 500px;
         text-align: left;
-    }
-
-    .footer {
-        text-align: center;
-        font-size: 0.8rem;
-        margin-top: 3rem;
-    }
-
-    .footer a:hover {
-        text-decoration: underline;
     }
 </style>
