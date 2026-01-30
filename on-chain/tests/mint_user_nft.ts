@@ -114,4 +114,35 @@ describe("mint_user_nft", () => {
         assert.equal(userNft2.metadataUri, metadataUri2);
         assert.isNumber(userNft2.createdAt.toNumber());
     });
+
+    it("fails if metadata URI is too long", async () => {
+        const provider = anchor.AnchorProvider.env();
+        anchor.setProvider(provider);
+
+        const program = anchor.workspace.OnChain as Program<any>;
+
+        const mintKeypair = Keypair.generate();
+
+        const longMetadataUri = "x".repeat(300); // exceeds 200 limit
+        const [userNftPda] = PublicKey.findProgramAddressSync(
+            [Buffer.from("user_nft"), mintKeypair.publicKey.toBuffer()],
+            program.programId
+        );
+
+        try {
+            await program.methods
+                .mintUserNft(longMetadataUri)
+                .accounts({
+                    user: provider.wallet.publicKey,
+                    mint: mintKeypair.publicKey,
+                    userNft: userNftPda,
+                    systemProgram: anchor.web3.SystemProgram.programId,
+                })
+                .rpc();
+
+            assert.fail("Transaction should have failed due to long metadata URI");
+        } catch (err: any) {
+            assert.ok(err.toString().includes("Metadata URI exceeds maximum allowed length"));
+        }
+    });
 });

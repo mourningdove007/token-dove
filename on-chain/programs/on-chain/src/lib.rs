@@ -1,5 +1,11 @@
 use anchor_lang::prelude::*;
 
+#[error_code]
+pub enum CustomError {
+    #[msg("Metadata URI exceeds maximum allowed length")]
+    MetadataTooLong,
+}
+
 declare_id!("ExB5P3grwDuyMw4KmgDTuRA3TQC9bSB1jsXQYEX7DJdg");
 
 #[account]
@@ -54,6 +60,11 @@ pub mod on_chain {
     }
 
     pub fn mint_user_nft(ctx: Context<MintUserNft>, metadata_uri: String) -> Result<()> {
+        
+        require!(
+        metadata_uri.len() <= UserNft::MAX_METADATA_URI_LEN,
+        CustomError::MetadataTooLong
+    );
         let user_nft = &mut ctx.accounts.user_nft;
 
         user_nft.owner = ctx.accounts.user.key();
