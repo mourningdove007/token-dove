@@ -1,39 +1,38 @@
 import * as anchor from "@anchor-lang/core";
-import { Program, BN } from "@anchor-lang/core";
+import { Program } from "@anchor-lang/core";
 import { HelloAnchor } from "../target/types/hello_anchor";
-import { Keypair } from "@solana/web3.js";
-import assert from "assert";
- 
+import { TOKEN_2022_PROGRAM_ID, getMint } from "@solana/spl-token";
+
 describe("hello_anchor", () => {
-  const provider = anchor.AnchorProvider.env();
-  anchor.setProvider(provider);
-  const wallet = provider.wallet as anchor.Wallet;
+  anchor.setProvider(anchor.AnchorProvider.env());
+
   const program = anchor.workspace.HelloAnchor as Program<HelloAnchor>;
- 
-  it("initialize", async () => {
-    // Generate keypair for the new account
-    const newAccountKp = new Keypair();
- 
-    // Send transaction
-    const data = new BN(42);
-
-
-    const transactionSignature = await program.methods
-      .initialize(data)
-      .accounts({
-        newAccount: newAccountKp.publicKey,
-        signer: wallet.publicKey,
-      })
-      .signers([newAccountKp])
-      .rpc();
- 
-    // Fetch the created account
-    const newAccount = await program.account.newAccount.fetch(
-      newAccountKp.publicKey,
-    );
- 
-    console.log("Transaction signature: ", transactionSignature);
-    console.log("On-chain data is:", newAccount.data.toString());
-    assert(data.eq(newAccount.data));
+  const [mint, bump] = anchor.web3.PublicKey.findProgramAddressSync(
+    [Buffer.from("mint")],
+    program.programId,
+  );
+  it("Is initialized!", async () => {
+    
+    const tx = await program.methods.testInstruction().rpc();
+    console.log("Your transaction signature", tx);
   });
+
+  it("can create mint account", async () => {
+    const tx = await program.methods
+      .createMint()
+      .accounts({
+        tokenProgram: TOKEN_2022_PROGRAM_ID,
+      })
+      .rpc({ commitment: "confirmed" });
+    console.log("Your transaction signature", tx);
+
+    const mintAccount = await getMint(
+      program.provider.connection,
+      mint,
+      "confirmed",
+      TOKEN_2022_PROGRAM_ID,
+    );
+
+    console.log("Mint Account", mintAccount);
+  })
 });

@@ -1,31 +1,46 @@
 use anchor_lang::prelude::*;
- 
+use anchor_spl::token_interface::{Mint, TokenInterface};
+
 declare_id!("DPxJ2kZv6z2gb8gDrFUkftmMQGfAqR3c4XFbC9SY9L9n");
- 
+
 #[program]
 mod hello_anchor {
     use super::*;
+    pub fn test_instruction(ctx: Context<InstructionAccounts>) -> Result<()> {
+        msg!("PDA: {}", ctx.accounts.pda_account.key());
+        Ok(())
+    }
 
-
-
-    pub fn initialize(ctx: Context<Initialize>, data: u64) -> Result<()> {
-        ctx.accounts.new_account.data = data;
-        msg!("Changed data to: {}!", data);
+    pub fn create_mint(ctx: Context<CreateMint>) -> Result<()> {
+        msg!("Created Mint Account: {:?}", ctx.accounts.mint.key());
         Ok(())
     }
 }
- 
-
 #[derive(Accounts)]
-pub struct Initialize<'info> {
-    #[account(init, payer = signer, space = 8 + 8)]
-    pub new_account: Account<'info, NewAccount>,
+pub struct CreateMint<'info> {
     #[account(mut)]
     pub signer: Signer<'info>,
+    #[account(
+        init,
+        payer = signer,
+        mint::decimals = 6,
+        mint::authority = mint.key(),
+        mint::freeze_authority = mint.key(),
+        seeds = [b"mint"],
+        bump
+    )]
+    pub mint: InterfaceAccount<'info, Mint>,
+    pub token_program: Interface<'info, TokenInterface>,
     pub system_program: Program<'info, System>,
 }
- 
-#[account]
-pub struct NewAccount {
-    data: u64,
+
+#[derive(Accounts)]
+pub struct InstructionAccounts<'info> {
+    pub signer: Signer<'info>,
+    #[account(
+
+        seeds = [],
+        bump,
+    )]
+    pub pda_account: SystemAccount<'info>,
 }
