@@ -3,97 +3,66 @@ import { Program } from "@anchor-lang/core";
 import { HelloAnchor } from "../target/types/hello_anchor";
 import {
   TOKEN_2022_PROGRAM_ID,
+  getAssociatedTokenAddress,
   getMint,
   getAccount,
-  getAssociatedTokenAddress,
 } from "@solana/spl-token";
-
-describe("hello_anchor", () => {
+ 
+describe("token-example", () => {
   anchor.setProvider(anchor.AnchorProvider.env());
-
+ 
   const program = anchor.workspace.HelloAnchor as Program<HelloAnchor>;
-  const [mint, bump] = anchor.web3.PublicKey.findProgramAddressSync(
-    [Buffer.from("mint")],
-    program.programId,
-  );
+  const mint = anchor.web3.Keypair.generate();
 
-  const [token, tokenBump] = anchor.web3.PublicKey.findProgramAddressSync(
-    [Buffer.from("token")],
-    program.programId,
-  );
+ 
 
-  it("Is initialized!", async () => {
+ 
+  it("Create token account", async () => {
 
-    const tx = await program.methods.testInstruction().rpc();
-    console.log("Your transaction signature", tx);
-  });
-
-  it("can create mint account", async () => {
-    const tx = await program.methods
+    await program.methods
       .createMint()
       .accounts({
+        mint: mint.publicKey,
         tokenProgram: TOKEN_2022_PROGRAM_ID,
       })
-      .rpc({ commitment: "confirmed" });
-    console.log("Your transaction signature", tx);
-
+      .signers([mint])
+      .rpc({ commitment: "confirmed" }); 
     const mintAccount = await getMint(
       program.provider.connection,
-      mint,
+      mint.publicKey,
       "confirmed",
       TOKEN_2022_PROGRAM_ID,
     );
-
+ 
     console.log("Mint Account", mintAccount);
-  })
 
-
-  it("can create token account", async () => {
     const tx = await program.methods
       .createTokenAccount()
       .accounts({
-        mint: mint,
+        signer: program.provider.publicKey,
+        mint: mint.publicKey,
         tokenProgram: TOKEN_2022_PROGRAM_ID,
       })
       .rpc({ commitment: "confirmed" });
-
+ 
     console.log("Your transaction signature", tx);
-
-    const tokenAccount = await getAccount(
-      program.provider.connection,
-      token,
-      "confirmed",
-      TOKEN_2022_PROGRAM_ID,
-    );
-
-    console.log("Token Account", tokenAccount);
-  });
-
-  it("Mint Tokens", async () => {
-    const tx = await program.methods
-      .mintTokens(new anchor.BN(100))
-      .accounts({
-        tokenProgram: TOKEN_2022_PROGRAM_ID,
-      })
-      .rpc({ commitment: "confirmed" });
-
-    console.log("Your transaction signature", tx);
+ 
 
     const associatedTokenAccount = await getAssociatedTokenAddress(
-      mint,
+      mint.publicKey,
       program.provider.publicKey,
       false,
       TOKEN_2022_PROGRAM_ID,
     );
 
+ 
     const tokenAccount = await getAccount(
       program.provider.connection,
       associatedTokenAccount,
       "confirmed",
       TOKEN_2022_PROGRAM_ID,
     );
-
+ 
     console.log("Token Account", tokenAccount);
   });
-
 });

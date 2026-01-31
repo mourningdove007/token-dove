@@ -7,7 +7,7 @@ declare_id!("DPxJ2kZv6z2gb8gDrFUkftmMQGfAqR3c4XFbC9SY9L9n");
 mod hello_anchor {
     use super::*;
     pub fn test_instruction(ctx: Context<InstructionAccounts>) -> Result<()> {
-        msg!("PDA: {}", ctx.accounts.pda_account.key());
+        msg!("PDA: {}", ctx.accounts.signer.key());
         Ok(())
     }
 
@@ -25,18 +25,23 @@ mod hello_anchor {
     }
 
     pub fn mint_tokens(ctx: Context<MintTokens>, amount: u64) -> Result<()> {
-        let signer_seeds: &[&[&[u8]]] = &[&[b"mint", &[ctx.bumps.mint]]];
-
-        let cpi_accounts = MintTo {
-            mint: ctx.accounts.mint.to_account_info(),
-            to: ctx.accounts.token_account.to_account_info(),
-            authority: ctx.accounts.mint.to_account_info(),
-        };
-        let cpi_program_id = ctx.accounts.token_program.to_account_info();
-        let cpi_context = CpiContext::new(cpi_program_id, cpi_accounts).with_signer(signer_seeds);
-        token_interface::mint_to(cpi_context, amount)?;
-        Ok(())
-    }
+    // Create the MintTo struct with the accounts required for the CPI
+    let cpi_accounts = MintTo {
+        mint: ctx.accounts.mint.to_account_info(),
+        to: ctx.accounts.token_account.to_account_info(),
+        authority: ctx.accounts.signer.to_account_info(),
+    };
+ 
+    // The program being invoked in the CPI
+    let cpi_program_id = ctx.accounts.token_program.to_account_info();
+ 
+    // Combine the accounts and program into a "CpiContext"
+    let cpi_context = CpiContext::new(cpi_program_id, cpi_accounts);
+ 
+    // Make CPI to mint_to instruction on the token program
+    token_interface::mint_to(cpi_context, amount)?;
+    Ok(())
+}
 }
 #[derive(Accounts)]
 pub struct CreateMint<'info> {
@@ -46,38 +51,15 @@ pub struct CreateMint<'info> {
         init,
         payer = signer,
         mint::decimals = 6,
-        mint::authority = mint.key(),
-        mint::freeze_authority = mint.key(),
-        seeds = [b"mint"],
-        bump
+        mint::authority = signer,
+        mint::freeze_authority = mint.key()
     )]
     pub mint: InterfaceAccount<'info, Mint>,
     pub token_program: Interface<'info, TokenInterface>,
     pub system_program: Program<'info, System>,
 }
-
 #[derive(Accounts)]
 pub struct CreateTokenAccount<'info> {
-    #[account(mut)]
-    pub signer: Signer<'info>,
-    #[account(
-
-        init_if_needed,
-        payer = signer,
-        token::mint = mint,
-        token::authority = token_account,
-        token::token_program = token_program,
-        seeds = [b"token"],
-        bump
-    )]
-    pub token_account: InterfaceAccount<'info, TokenAccount>,
-    pub mint: InterfaceAccount<'info, Mint>,
-    pub token_program: Interface<'info, TokenInterface>,
-    pub system_program: Program<'info, System>,
-}
-
-#[derive(Accounts)]
-pub struct MintTokens<'info> {
     #[account(mut)]
     pub signer: Signer<'info>,
     #[account(
@@ -88,11 +70,6 @@ pub struct MintTokens<'info> {
         associated_token::token_program = token_program,
     )]
     pub token_account: InterfaceAccount<'info, TokenAccount>,
-    #[account(
-        mut,
-        seeds = [b"mint"],
-        bump
-    )]
     pub mint: InterfaceAccount<'info, Mint>,
     pub token_program: Interface<'info, TokenInterface>,
     pub associated_token_program: Program<'info, AssociatedToken>,
@@ -100,12 +77,17 @@ pub struct MintTokens<'info> {
 }
 
 #[derive(Accounts)]
+pub struct MintTokens<'info> {
+    #[account(mut)]
+    pub signer: Signer<'info>,
+    #[account(mut)]
+    pub mint: InterfaceAccount<'info, Mint>,
+    #[account(mut)]
+    pub token_account: InterfaceAccount<'info, TokenAccount>,
+    pub token_program: Interface<'info, TokenInterface>,
+}
+
+#[derive(Accounts)]
 pub struct InstructionAccounts<'info> {
     pub signer: Signer<'info>,
-    #[account(
-
-        seeds = [],
-        bump,
-    )]
-    pub pda_account: SystemAccount<'info>,
 }
