@@ -5,6 +5,7 @@ import {
   TOKEN_2022_PROGRAM_ID,
   getMint,
   getAccount,
+  getAssociatedTokenAddress,
 } from "@solana/spl-token";
 
 describe("hello_anchor", () => {
@@ -68,6 +69,31 @@ describe("hello_anchor", () => {
     console.log("Token Account", tokenAccount);
   });
 
+  it("Mint Tokens", async () => {
+    const tx = await program.methods
+      .mintTokens(new anchor.BN(100))
+      .accounts({
+        tokenProgram: TOKEN_2022_PROGRAM_ID,
+      })
+      .rpc({ commitment: "confirmed" });
 
+    console.log("Your transaction signature", tx);
+
+    const associatedTokenAccount = await getAssociatedTokenAddress(
+      mint,
+      program.provider.publicKey,
+      false,
+      TOKEN_2022_PROGRAM_ID,
+    );
+
+    const tokenAccount = await getAccount(
+      program.provider.connection,
+      associatedTokenAccount,
+      "confirmed",
+      TOKEN_2022_PROGRAM_ID,
+    );
+
+    console.log("Token Account", tokenAccount);
+  });
 
 });
