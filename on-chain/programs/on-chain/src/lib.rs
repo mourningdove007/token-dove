@@ -4,7 +4,7 @@ use anchor_spl::token_interface::{self, Mint, MintTo, TokenAccount, TokenInterfa
 declare_id!("DPxJ2kZv6z2gb8gDrFUkftmMQGfAqR3c4XFbC9SY9L9n");
 
 #[program]
-mod hello_anchor {
+mod token_dove {
     use super::*;
     pub fn test_instruction(ctx: Context<InstructionAccounts>) -> Result<()> {
         msg!("PDA: {}", ctx.accounts.signer.key());
