@@ -3,7 +3,7 @@
 
     import { push } from "svelte-spa-router";
     import { BROWSERSDK } from "../tools/universal";
-    import GlowingButton from "../lib/GlowingButton.svelte";
+    import GlowingButton from "../lib/CustomButtom.svelte";
 
     const signOut = async () => {
         await BROWSERSDK.disconnect();
@@ -42,5 +42,10 @@
     h2 {
         text-align: center;
         margin-bottom: 1.5rem;
+        color: #00ffff;
+    }
+
+    p {
+        color: #00ffff;
     }
 </style>

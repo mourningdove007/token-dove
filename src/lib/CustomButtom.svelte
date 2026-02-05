@@ -40,27 +40,16 @@
         border-radius: 80px;
         font-weight: 800;
         font-size: 16px;
-        color: white;
+        color: #06001a;
         border: none;
         cursor: pointer;
         z-index: 1;
+        background: #00ffff;
     }
 
     .icon {
         flex-shrink: 0;
         display: block;
-    }
-
-    .glow-btn::before {
-        content: "";
-        position: absolute;
-        inset: -8px;
-        background: #646cff;
-        filter: blur(8px);
-        z-index: -1;
-        opacity: 0.8;
-        transition: opacity 0.25s ease;
-        border-radius: 80px;
     }
 
     .glow-btn:hover::before {
