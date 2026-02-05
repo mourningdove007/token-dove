@@ -11,7 +11,7 @@
         LAMPORTS_PER_SOL,
     } from "@solana/web3.js";
     import { push } from "svelte-spa-router";
-    import GlowingButton from "../lib/GlowingButton.svelte";
+    import GlowingButton from "../lib/CustomButtom.svelte";
 
     let publicKeyInput = $state("");
     let transactions = $state([]);

@@ -3,7 +3,7 @@
 
     import { push } from "svelte-spa-router";
     import { BROWSERSDK } from "../tools/universal";
-    import GlowingButton from "../lib/GlowingButton.svelte";
+    import GlowingButton from "../lib/CustomButtom.svelte";
 
     const signOut = async () => {
         await BROWSERSDK.disconnect();
