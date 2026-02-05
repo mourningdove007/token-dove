@@ -4,6 +4,7 @@
     import { push } from "svelte-spa-router";
     import { BROWSERSDK } from "../tools/universal";
     import GlowingButton from "../lib/GlowingButton.svelte";
+    import GlowingToken from "../lib/GlowingToken.svelte";
 
     const connectWallet = async () => {
         try {
@@ -17,16 +18,9 @@
     };
 </script>
 
-<h2>Token Dove</h2>
-
-<p>
-    This is an <a href="https://github.com/mourningdove007/token-dove"
-        >open source project</a
-    >
-    with the end goal of providing videogame developers an easy platform for in game
-    asset exchange. Currently, the app will allow a user to sign in with their Phantom
-    wallet and view transaction history.
-</p>
+<GlowingToken size={200} />
+<br />
+<br />
 <br />
 <GlowingButton
     text="Sign In with Phantom"
@@ -35,14 +29,39 @@
 />
 <br />
 <br />
-<p>
-    Privacy Disclaimer: No personal information is collected as there is no
-    backend. All information is owned by the user.
-</p>
+<footer class="app-footer">
+    <small>
+        <a
+            href="https://github.com/mourningdove007/token-dove"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Token Dove is open source
+        </a>
+        — a simple platform for in-game asset exchange.
+    </small>
+</footer>
 
 <style>
     p {
         max-width: 500px;
         text-align: left;
+    }
+
+    .app-footer {
+        text-align: center;
+        padding: 12px 0;
+        font-size: 0.85rem;
+        color: #aaaaaa;
+    }
+
+    .app-footer a {
+        color: #00ffff;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .app-footer a:hover {
+        text-decoration: underline;
     }
 </style>

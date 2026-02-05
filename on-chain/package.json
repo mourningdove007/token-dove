@@ -6,7 +6,8 @@
   },
   "dependencies": {
     "@anchor-lang/core": "^0.32.1",
-    "@coral-xyz/anchor": "^0.32.1"
+    "@coral-xyz/anchor": "^0.32.1",
+    "@sveltejs/vite-plugin-svelte": "^6.2.4"
   },
   "devDependencies": {
     "@types/bn.js": "^5.1.0",

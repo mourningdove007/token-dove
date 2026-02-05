@@ -127,6 +127,11 @@
     h2 {
         text-align: center;
         margin-bottom: 1.5rem;
+        color: #00ffff;
+    }
+
+    p {
+        color: #00ffff;
     }
 
     .transaction {
@@ -136,6 +141,7 @@
         margin-top: 1rem;
         word-break: break-all;
         text-align: left;
+        color: #00ffff;
     }
 
     .actions {

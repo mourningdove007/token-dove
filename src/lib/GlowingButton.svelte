@@ -40,7 +40,7 @@
         border-radius: 80px;
         font-weight: 800;
         font-size: 16px;
-        color: white;
+        color: #06001a;
         border: none;
         cursor: pointer;
         z-index: 1;
@@ -55,7 +55,7 @@
         content: "";
         position: absolute;
         inset: -8px;
-        background: #646cff;
+        background: #00ffff;
         filter: blur(8px);
         z-index: -1;
         opacity: 0.8;
