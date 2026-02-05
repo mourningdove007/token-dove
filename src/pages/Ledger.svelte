@@ -1,4 +1,6 @@
 <script>
+    // @ts-nocheck
+
     import { onMount } from "svelte";
     import { BROWSERSDK } from "../tools/universal";
 
@@ -9,6 +11,7 @@
         LAMPORTS_PER_SOL,
     } from "@solana/web3.js";
     import { push } from "svelte-spa-router";
+    import GlowingButton from "../lib/GlowingButton.svelte";
 
     let publicKeyInput = $state("");
     let transactions = $state([]);
@@ -96,8 +99,12 @@
 </script>
 
 <div class="actions">
-    <button onclick={signOut}>Sign Out</button>
-    <button class="button2" onclick={backHome}>Back Home</button>
+    <div class="button1">
+        <GlowingButton text="Sign Out" onClick={signOut} showIcon={false} />
+    </div>
+    <div class="button2">
+        <GlowingButton text="Back Home" onClick={backHome} showIcon={false} />
+    </div>
 </div>
 
 <h2>Transaction History</h2>
@@ -136,21 +143,15 @@
         gap: 0.75rem;
     }
 
-    button {
+    .button1 {
         margin: auto;
         padding: 0.6rem;
         font-size: 1rem;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
     }
 
     .button2 {
         margin: auto;
         padding: 0.6rem;
         font-size: 1rem;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
     }
 </style>

@@ -1,0 +1,74 @@
+<script>
+    export let onClick = () => {};
+    export let text = "Click Me";
+    export let showIcon = true;
+</script>
+
+<button class="glow-btn" on:click={onClick}>
+    <div class="button-content">
+        {#if showIcon}
+            <svg
+                width="28"
+                height="28"
+                viewBox="0 0 108 93"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon"
+            >
+                <path
+                    d="M0.5 78.1789C0.5 90.2265 6.7065 93 13.1613 93C26.8155 93 37.077 80.6058 43.2007 70.8118C42.4559 72.9786 42.0422 75.1454 42.0422 77.2255C42.0422 82.946 45.1868 87.0196 51.3933 87.0196C59.9169 87.0196 69.0197 79.219 73.7367 70.8118C73.4056 72.0252 73.2401 73.1519 73.2401 74.192C73.2401 78.1789 75.3917 80.6924 79.7777 80.6924C93.5975 80.6924 107.5 55.124 107.5 32.7623C107.5 15.3411 99.0592 0 77.8743 0C40.6354 0 0.5 47.4967 0.5 78.1789ZM65.0476 30.8555C65.0476 26.5219 67.3647 23.4884 70.7575 23.4884C74.0677 23.4884 76.3848 26.5219 76.3848 30.8555C76.3848 35.1892 74.0677 38.3094 70.7575 38.3094C67.3647 38.3094 65.0476 35.1892 65.0476 30.8555ZM82.7568 30.8555C82.7568 26.5219 85.0739 23.4884 88.4668 23.4884C91.7769 23.4884 94.094 26.5219 94.094 30.8555C94.094 35.1892 91.7769 38.3094 88.4668 38.3094C85.0739 38.3094 82.7568 35.1892 82.7568 30.8555Z"
+                    fill="currentColor"
+                />
+            </svg>
+        {/if}
+
+        <span>{text}</span>
+    </div>
+</button>
+
+<style>
+    .button-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .glow-btn {
+        position: relative;
+        padding: 14px 36px;
+        border-radius: 16px;
+        font-weight: 800;
+        font-size: 16px;
+        color: white;
+        background: #000000;
+        border: none;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .icon {
+        flex-shrink: 0;
+        display: block;
+    }
+
+    .glow-btn::before {
+        content: "";
+        position: absolute;
+        inset: -8px;
+        background: #646cff;
+        filter: blur(8px);
+        z-index: -1;
+        opacity: 0.8;
+        transition: opacity 0.25s ease;
+    }
+
+    .glow-btn:hover::before {
+        opacity: 1;
+    }
+
+    .glow-btn:hover {
+        transform: scale(1.04);
+        transition: transform 0.2s ease;
+    }
+</style>
