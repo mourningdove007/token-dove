@@ -43,7 +43,7 @@
         color: #06001a;
         border: none;
         cursor: pointer;
-        z-index: -99;
+        z-index: 1;
     }
 
     .icon {
@@ -57,7 +57,7 @@
         inset: -8px;
         background: #00ffff;
         filter: blur(8px);
-        z-index: -1;
+        z-index: -99;
         opacity: 0.8;
         transition: opacity 0.25s ease;
         border-radius: 80px;
