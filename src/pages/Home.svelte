@@ -17,7 +17,7 @@
 </script>
 
 <div class="signOutButton">
-    <GlowingButton text="Sign Out" onClick={signOut} showIcon={false} />
+    <GlowingButton text="Log Out" onClick={signOut} showIcon={false} />
 </div>
 
 <h2>Welcome</h2>

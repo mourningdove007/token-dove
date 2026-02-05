@@ -100,10 +100,10 @@
 
 <div class="actions">
     <div class="button1">
-        <GlowingButton text="Sign Out" onClick={signOut} showIcon={false} />
+        <GlowingButton text="Log Out" onClick={signOut} showIcon={false} />
     </div>
     <div class="button2">
-        <GlowingButton text="Back Home" onClick={backHome} showIcon={false} />
+        <GlowingButton text="Home" onClick={backHome} showIcon={false} />
     </div>
 </div>
 

@@ -37,11 +37,10 @@
     .glow-btn {
         position: relative;
         padding: 14px 36px;
-        border-radius: 16px;
+        border-radius: 80px;
         font-weight: 800;
         font-size: 16px;
         color: white;
-        background: #000000;
         border: none;
         cursor: pointer;
         z-index: 1;
@@ -61,6 +60,7 @@
         z-index: -1;
         opacity: 0.8;
         transition: opacity 0.25s ease;
+        border-radius: 80px;
     }
 
     .glow-btn:hover::before {
