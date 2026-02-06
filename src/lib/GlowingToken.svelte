@@ -1,11 +1,26 @@
 <script>
+    import { Bird, Star, Heart, Moon, Sun } from "lucide-svelte";
+
     export let size = 96;
     export let label = "TOKEN DOVE";
+    export let icon = "Bird";
+    export let coinColor = "#00ffff";
+
+    const icons = {
+        Bird,
+        Star,
+        Heart,
+        Moon,
+        Sun,
+    };
+
+    let IconComponent = icons[icon] || Bird;
 </script>
 
 <div
     class="token-wrapper"
-    style="width: {size}px; height: {size}px;"
+    style="--glow-color: {coinColor};
+ width: {size}px; height: {size}px;"
     aria-label={label}
 >
     <svg
@@ -30,37 +45,34 @@
         </defs>
 
         <circle cx="256" cy="256" r="228" fill="url(#darkCoinGradient)" />
-
         <circle
             cx="256"
             cy="256"
             r="210"
             fill="none"
-            stroke="#00ffff"
+            stroke={coinColor}
             stroke-width="5"
             opacity="0.9"
         />
 
+        <IconComponent size="200" x="150" y="110" color={coinColor} />
+
         <text
             x="256"
-            y="280"
+            y="350"
             text-anchor="middle"
             font-size="40"
             font-weight="800"
-            fill="#00ffff"
+            fill={coinColor}
             stroke="none"
             opacity="1"
         >
-            TOKEN DOVE
+            {label}
         </text>
     </svg>
 </div>
 
 <style>
-    :root {
-        --glow-color: #00ffff;
-    }
-
     .token-wrapper {
         position: relative;
         display: inline-flex;

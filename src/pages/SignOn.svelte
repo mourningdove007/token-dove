@@ -4,7 +4,9 @@
     import { push } from "svelte-spa-router";
     import { BROWSERSDK } from "../tools/universal";
     import GlowingButton from "../lib/CustomButtom.svelte";
+    import GitButton from "../lib/GitButton.svelte";
     import GlowingToken from "../lib/GlowingToken.svelte";
+    import { Github } from "lucide-svelte"
 
     const connectWallet = async () => {
         try {
@@ -18,10 +20,14 @@
     };
 </script>
 
-<GlowingToken size={200} />
+<GlowingToken size={200} icon="Bird" label="TOKEN DOVE" />
 <br />
 <br />
 <br />
+<div class="app-footer">
+        We provide a simple, open-source platform for in-game asset exchange.
+</div>
+<br/>
 <GlowingButton
     text="Sign In with Phantom"
     onClick={connectWallet}
@@ -29,18 +35,7 @@
 />
 <br />
 <br />
-<footer class="app-footer">
-    <small>
-        <a
-            href="https://github.com/mourningdove007/token-dove"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            Token Dove is open source
-        </a>
-        — a simple platform for in-game asset exchange.
-    </small>
-</footer>
+<GitButton />
 
 <style>
     p {
@@ -49,10 +44,13 @@
     }
 
     .app-footer {
-        text-align: center;
         padding: 12px 0;
         font-size: 0.85rem;
-        color: #aaaaaa;
+        color: #00ffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
     }
 
     .app-footer a {
@@ -65,11 +63,4 @@
         text-decoration: underline;
     }
 
-    html,
-    body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    }
 </style>
