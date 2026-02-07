@@ -3,11 +3,13 @@
   import Ledger from './pages/Ledger.svelte';
     import SignOn from './pages/SignOn.svelte';
     import Home from './pages/Home.svelte';
+    import Tokens from './pages/Tokens.svelte';
 
   const routes = {
     '/': SignOn,
     '/ledger': Ledger,
     '/home': Home,
+    '/tokens': Tokens,
   };
 </script>
 
