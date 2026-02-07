@@ -10,16 +10,17 @@
         clusterApiUrl,
         LAMPORTS_PER_SOL,
     } from "@solana/web3.js";
+
     import { push } from "svelte-spa-router";
     import GlowingButton from "../lib/CustomButtom.svelte";
 
     let publicKeyInput = $state("");
     let transactions = $state([]);
-    let error = "";
+    let solBalance = $state(null);
+    let error = $state("");
 
     const signOut = async () => {
         await BROWSERSDK.disconnect();
-
         push("/");
     };
 
@@ -28,6 +29,24 @@
     };
 
     const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+
+    async function fetchBalance() {
+        if (!publicKeyInput) return;
+
+        try {
+            const publicKey = new PublicKey(publicKeyInput);
+            const balanceLamports = await connection.getBalance(publicKey);
+            solBalance = balanceLamports / LAMPORTS_PER_SOL;
+        } catch (err) {
+            error = err.message;
+        }
+    }
+    const lastFour = (value) => {
+        if (value === null || value === undefined) return "";
+
+        const str = String(value);
+        return str.slice(-4);
+    };
 
     async function fetchTransactions() {
         error = "";
@@ -40,6 +59,7 @@
             const sigs = await connection.getSignaturesForAddress(publicKey, {
                 limit: 5,
             });
+
             if (!sigs.length) {
                 error = "No transactions found for this address.";
                 return;
@@ -49,11 +69,13 @@
                 const tx = await connection.getTransaction(sigInfo.signature, {
                     commitment: "confirmed",
                 });
+
                 if (!tx) continue;
 
                 const blockTime = tx.blockTime
                     ? new Date(tx.blockTime * 1000).toLocaleString()
                     : "Unknown";
+
                 const signature = tx.transaction.signatures[0];
                 const preBalances = tx.meta.preBalances;
                 const postBalances = tx.meta.postBalances;
@@ -68,6 +90,7 @@
 
                 const from = keys[fromIndex];
                 const to = keys[toIndex];
+
                 const amount = (
                     (preBalances[fromIndex] - postBalances[fromIndex]) /
                     LAMPORTS_PER_SOL
@@ -88,7 +111,9 @@
 
         try {
             publicKeyInput = await BROWSERSDK.solana.getPublicKey();
+
             if (publicKeyInput) {
+                await fetchBalance();
                 await fetchTransactions();
             }
         } catch (e) {
@@ -107,19 +132,28 @@
     </div>
 </div>
 
-<h2>Transaction History</h2>
+<h2>
+    {`History for ${publicKeyInput.slice(0, 3)}...${lastFour(publicKeyInput)}`}
+</h2>
 
-<p>{`Public Key: ${publicKeyInput}`}</p>
+{#if solBalance !== null}
+    <p>Balance: {`(${solBalance.toFixed(6)} SOL)`}</p>
+{/if}
+
+{#if error}
+    <p class="error">{error}</p>
+{/if}
+
+<br />
 
 {#each transactions as tx (tx.signature)}
-    <div class="transaction">
-        <div>From: {tx.from}</div>
-        <div>To: {tx.to}</div>
-        <div>Amount (SOL): {tx.amount}</div>
-        <div>
-            Signature: <div>{tx.signature}</div>
+    <div class="transaction-wrapper">
+        <div class="transaction-content">
+            <div>From: ...{lastFour(tx.from)}</div>
+            <div>To: ...{lastFour(tx.to)}</div>
+            <div>Amount (SOL): {tx.amount}</div>
+            <div>Time: {tx.blockTime}</div>
         </div>
-        <div>Time: {tx.blockTime}</div>
     </div>
 {/each}
 
@@ -134,14 +168,10 @@
         color: #00ffff;
     }
 
-    .transaction {
-        max-width: 500px;
-        border-radius: 6px;
-        padding: 0.8rem;
+    .error {
+        color: red;
+        font-weight: bold;
         margin-top: 1rem;
-        word-break: break-all;
-        text-align: left;
-        color: #00ffff;
     }
 
     .actions {
@@ -159,5 +189,56 @@
         margin: auto;
         padding: 0.6rem;
         font-size: 1rem;
+    }
+
+    .transaction-wrapper {
+        position: relative;
+        border-radius: 12px;
+        margin-top: 1rem;
+        overflow: visible; /* allow glow to extend beyond square */
+    }
+
+    .transaction-wrapper::before {
+        content: "";
+        position: absolute;
+        inset: -10px; /* glow outside the square */
+        background: #00ffff; /* glow color */
+        filter: blur(18px);
+        opacity: 0.55;
+        border-radius: 14px;
+        z-index: 0; /* behind the square */
+        animation: pulse 4s ease-in-out infinite;
+        transition: opacity 0.25s ease;
+    }
+
+    .transaction-wrapper:hover::before {
+        opacity: 0.9;
+    }
+
+    .transaction-content {
+        position: relative;
+        z-index: 1; /* above the glow */
+        background: #06001a; /* solid square background */
+        padding: 1rem;
+        text-align: left;
+        border-radius: 12px;
+        border: 1px solid rgba(0, 255, 255, 0.6); /* optional neon border */
+        color: #00ffff;
+        display: flex;
+        opacity: 1;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    @keyframes pulse {
+        0% {
+            opacity: 0.4;
+        }
+        50% {
+            opacity: 0.9;
+        }
+        100% {
+            opacity: 0.4;
+        }
     }
 </style>

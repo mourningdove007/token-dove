@@ -1,20 +1,8 @@
 <script>
-    import { Bird, Star, Heart, Moon, Sun } from "lucide-svelte";
-
     export let size = 96;
     export let label = "TOKEN DOVE";
-    export let icon = "Bird";
     export let coinColor = "#00ffff";
-
-    const icons = {
-        Bird,
-        Star,
-        Heart,
-        Moon,
-        Sun,
-    };
-
-    let IconComponent = icons[icon] || Bird;
+    export let IconComponent;
 </script>
 
 <div
@@ -55,7 +43,13 @@
             opacity="0.9"
         />
 
-        <IconComponent size="200" x="150" y="110" color={coinColor} />
+        <svelte:component
+            this={IconComponent}
+            x="150"
+            y="110"
+            color={coinColor}
+            {size}
+        />
 
         <text
             x="256"

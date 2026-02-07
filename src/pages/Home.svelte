@@ -14,6 +14,10 @@
     const goToLedger = async () => {
         await push("/ledger");
     };
+
+    const goToMyCoins = async () => {
+        await push("/tokens");
+    };
 </script>
 
 <div class="signOutButton">
@@ -28,6 +32,14 @@
 <GlowingButton
     text="View Your Solana Devnet Transaction History"
     onClick={goToLedger}
+    showIcon={false}
+/>
+<br />
+<br />
+
+<GlowingButton
+    text="View Your Tokens (Not Connected)"
+    onClick={goToMyCoins}
     showIcon={false}
 />
 

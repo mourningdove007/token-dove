@@ -6,7 +6,7 @@
     import GlowingButton from "../lib/CustomButtom.svelte";
     import GitButton from "../lib/GitButton.svelte";
     import GlowingToken from "../lib/GlowingToken.svelte";
-    import { Github } from "lucide-svelte"
+    import { Bird } from "lucide-svelte"
 
     const connectWallet = async () => {
         try {
@@ -20,7 +20,7 @@
     };
 </script>
 
-<GlowingToken size={200} icon="Bird" label="TOKEN DOVE" />
+<GlowingToken size={200} IconComponent={Bird} label="TOKEN DOVE" />
 <br />
 <br />
 <br />
@@ -38,10 +38,7 @@
 <GitButton />
 
 <style>
-    p {
-        max-width: 500px;
-        text-align: left;
-    }
+   
 
     .app-footer {
         padding: 12px 0;
@@ -51,16 +48,6 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
-    }
-
-    .app-footer a {
-        color: #00ffff;
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-    .app-footer a:hover {
-        text-decoration: underline;
     }
 
 </style>
