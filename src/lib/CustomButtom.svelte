@@ -2,9 +2,10 @@
     export let onClick = () => {};
     export let text = "Click Me";
     export let showIcon = true;
+    export let buttonColor = "#00ffff"
 </script>
 
-<button class="glow-btn" on:click={onClick}>
+<button class="glow-btn" on:click={onClick} style={`background-color: ${buttonColor}`}>
     <div class="button-content">
         {#if showIcon}
             <svg
@@ -44,7 +45,6 @@
         border: none;
         cursor: pointer;
         z-index: 1;
-        background: #00ffff;
     }
 
     .icon {
