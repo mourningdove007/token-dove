@@ -19,11 +19,6 @@
     let solBalance = $state(null);
     let error = $state("");
 
-    const signOut = async () => {
-        await BROWSERSDK.disconnect();
-        push("/");
-    };
-
     const backHome = async () => {
         await push("/home");
     };
@@ -123,14 +118,7 @@
     });
 </script>
 
-<div class="actions">
-    <div class="button1">
-        <GlowingButton text="Log Out" onClick={signOut} showIcon={false} />
-    </div>
-    <div class="button2">
-        <GlowingButton text="Home" onClick={backHome} showIcon={false} />
-    </div>
-</div>
+<GlowingButton text="Home" onClick={backHome} showIcon={false} />
 
 <h2>
     {`History for ${publicKeyInput.slice(0, 3)}...${lastFour(publicKeyInput)}`}
@@ -172,23 +160,6 @@
         color: red;
         font-weight: bold;
         margin-top: 1rem;
-    }
-
-    .actions {
-        display: flex;
-        gap: 0.75rem;
-    }
-
-    .button1 {
-        margin: auto;
-        padding: 0.6rem;
-        font-size: 1rem;
-    }
-
-    .button2 {
-        margin: auto;
-        padding: 0.6rem;
-        font-size: 1rem;
     }
 
     .transaction-wrapper {
