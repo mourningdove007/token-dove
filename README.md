@@ -12,6 +12,13 @@ The application is available on [tokendove.com](https://tokendove.com/). In its 
 
 ## Development
 
+In the root directory of the project, create a `.env` with the following variables:
+
+```
+VITE_PHANTOM_PROJECT_ID=YOUR_PUBLIC_PHANTOM_APP_ID
+VITE_REDIRECT=REDIRECT_TO_YOUR_APP
+```
+
 Install dependencies and run the off-chain application locally:
 
 ```bash
