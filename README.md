@@ -76,4 +76,3 @@ anchor test
 * **JavaScript (ES6+)** and **Svelte** – for front-end
 * **Solana RPC** – for fetching on-chain data
 * **Phantom Wallet** – for wallet integration
-* **Firebase Hosting** – for deployment
