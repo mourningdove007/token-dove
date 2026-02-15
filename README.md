@@ -1,10 +1,10 @@
 # Token Dove
 
-**Solana Wallet Dashboard & Future NFT/Game Platform**
+**Solana Wallet Dashboard & Minimal Game Asset Platform**
 
 ---
 
-The application is available on [tokendove.com](https://tokendove.com/). In its current form, users can sign in with their [Phantom](https://phantom.com/) wallet and view their transaction history on the Solana Devnet.
+The application is available on [tokendove.com](https://tokendove.com/). Users can sign in with their [Phantom](https://phantom.com/) wallet and interact with **non-transferable in-game assets** on Solana Devnet.
 
 > ⚠️ **Demo / Devnet Only:** This project is for demonstration purposes and interacts only with Solana Devnet. No mainnet assets are used.
 
@@ -26,13 +26,19 @@ npm install
 npm run dev
 ```
 
-### On-Chain SPL Programs
+### On-Chain Programs
 
-The on-chain portion is written in Rust using [Anchor](https://www.anchor-lang.com/) and implements basic SPL token functionality:
+The on-chain portion is written in Rust using [Anchor](https://www.anchor-lang.com/) and implements **non-transferable game asset tokens** using Token-2022:
 
-* Creating a token mint
-* Creating associated token accounts
-* Minting tokens
+* Create limited-supply **item mints**
+* Track minted supply on-chain to enforce caps
+* Allow players to **claim tokens** into their wallets
+* Ensure tokens **cannot be transferred**, preventing secondary markets or unintended trading
+
+The on-chain program is minimal, with only two core instructions:
+
+1. `create_item_mint` – for admins to create a new item with a fixed supply
+2. `claim_item` – for players to claim a single token
 
 Currently, the programs are not deployed to Devnet/Mainnet. You can build and run tests locally:
 
@@ -46,33 +52,35 @@ anchor test
 
 ## Architecture Overview
 
-* The **front-end** is a Svelte application that handles wallet connections (via Phantom) and displays transaction history.
-* The **on-chain Anchor program** interacts with the **SPL Token program**, allowing users to create mints, token accounts, and mint tokens.
-* This separation ensures that the heavy lifting (token logic) is handled securely on-chain, while the UI remains lightweight and user-friendly.
+* The **front-end** is a Svelte application that handles wallet connections (via Phantom) and displays claimed in-game assets.
+* The **on-chain Anchor program** manages token minting, supply tracking, and enforces **non-transferable ownership**.
+* Metadata such as item images, names, and attributes are handled off-chain by the frontend, linked to each token by mint address or ID.
+* This separation keeps the on-chain program **simple and secure**, while giving the frontend full flexibility to display assets.
 
 ---
 
 ## Current Features
 
 * Connect to Solana wallets (Phantom)
-* Display wallet address
-* Fetch and list recent Devnet transactions
-* Functioning SPL Program written with Anchor/Rust (tested locally)
+* Display wallet address and claimed items
+* Claim **non-transferable game tokens** from limited-supply mints
+* On-chain Anchor program using Token-2022 (tested locally)
 
 ---
 
 ## Future Goals
 
-* Support **NFT transfers and trading** in-browser
-* Provide **SOL and token swap** functionality for games
-* Build **user-first tools** with zero server cost and full privacy
-* Develop a **browser-native platform** for gaming token ecosystems
+* Expand inventory system with additional item types
+* Implement optional backend entitlement logic for game-based rewards
+* Provide a clean, browser-native platform for in-game assets
+* Keep the platform **open-source, lightweight, and secure**
 
 ---
 
 ## Tech Stack
 
-* **Rust / Anchor** – for on-chain programs
-* **JavaScript (ES6+)** and **Svelte** – for front-end
-* **Solana RPC** – for fetching on-chain data
-* **Phantom Wallet** – for wallet integration
+* **Rust / Anchor** – on-chain program for non-transferable tokens
+* **JavaScript (ES6+) / Svelte** – front-end and wallet integration
+* **Solana RPC** – for on-chain state and token account queries
+* **Phantom Wallet** – wallet login and token storage
+
