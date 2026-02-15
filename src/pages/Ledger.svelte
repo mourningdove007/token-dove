@@ -2,7 +2,7 @@
     // @ts-nocheck
 
     import { onMount } from "svelte";
-    import { BROWSERSDK } from "../tools/universal";
+    import { BROWSERSDK, rpcUrl } from "../tools/universal";
 
     import {
         Connection,
@@ -23,7 +23,8 @@
         await push("/home");
     };
 
-    const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+    // const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+    const connection = new Connection(rpcUrl, "confirmed");
 
     async function fetchBalance() {
         if (!publicKeyInput) return;
@@ -121,8 +122,9 @@
 <GlowingButton text="Home" onClick={backHome} showIcon={false} />
 
 <h2>
-    {`History for ${publicKeyInput.slice(0, 3)}...${lastFour(publicKeyInput)}`}
+    {`History`}
 </h2>
+<h3>{publicKeyInput}</h3>
 
 {#if solBalance !== null}
     <p>Balance: {`(${solBalance.toFixed(6)} SOL)`}</p>
@@ -147,6 +149,12 @@
 
 <style>
     h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #00ffff;
+    }
+
+    h3 {
         text-align: center;
         margin-bottom: 1.5rem;
         color: #00ffff;

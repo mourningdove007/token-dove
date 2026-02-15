@@ -6,10 +6,10 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-on_chain = "DPxJ2kZv6z2gb8gDrFUkftmMQGfAqR3c4XFbC9SY9L9n"
+on_chain = "DPxJ2kZv6z2gb8gDrFUkftmMQGfAqR3c4XFbCDSY9L9n"
 
 [registry]
-url = "https://api.apr.dev"
+url = "http://127.0.0.1:8899"
 
 [provider]
 cluster = "localnet"

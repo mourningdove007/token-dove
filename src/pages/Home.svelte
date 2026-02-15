@@ -20,6 +20,10 @@
     const goToMyCoins = async () => {
         await push("/tokens");
     };
+
+    const goToCreateAsset = async () => {
+        await push("/create")
+    }
 </script>
 
 <GlowingToken size={200} IconComponent={Bird} label="WELCOME BACK" />
@@ -28,6 +32,13 @@
 <GlowingButton
     text="(Devnet) Solana Transaction History"
     onClick={goToLedger}
+    showIcon={false}
+/>
+<br />
+<br />
+<GlowingButton
+    text="(Devnet) Create Mint"
+    onClick={goToCreateAsset}
     showIcon={false}
 />
 <br />

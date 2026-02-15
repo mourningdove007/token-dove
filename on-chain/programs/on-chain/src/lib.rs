@@ -3,7 +3,7 @@ use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token_2022::{self, SetAuthority};
 use anchor_spl::token_2022::spl_token_2022::instruction::AuthorityType;
 use anchor_spl::token_interface::{self, Mint, MintTo, TokenAccount, TokenInterface, FreezeAccount};
-declare_id!("DPxJ2kZv6z2gb8gDrFUkftmMQGfAqR3c4XFbC9SY9L9n");
+declare_id!("DPxJ2kZv6z2gb8gDrFUkftmMQGfAqR3c4XFbCDSY9L9n");
 
 #[program]
 mod token_dove {

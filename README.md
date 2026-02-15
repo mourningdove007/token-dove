@@ -12,11 +12,25 @@ The application is available on [tokendove.com](https://tokendove.com/). Users c
 
 ## Development
 
-In the root directory of the project, create a `.env` with the following variables:
+Tests for the on-chain portion of the app can be run using
+
+```
+anchor test
+```
+
+A local solana test ledger can be started with
+
+```
+solana-test-validator
+```
+exposing an RPC URL entrypoint at `http://127.0.0.1:8899`. 
+
+In the root directory of the project, create a `.env` with the following variables for local development:
 
 ```
 VITE_PHANTOM_PROJECT_ID=YOUR_PUBLIC_PHANTOM_APP_ID
-VITE_REDIRECT=REDIRECT_TO_YOUR_APP
+VITE_RPC_URL="http://127.0.0.1:8899"
+VITE_REDIRECT="http://localhost:5173/#/home"
 ```
 
 Install dependencies and run the off-chain application locally:
@@ -25,6 +39,12 @@ Install dependencies and run the off-chain application locally:
 npm install
 npm run dev
 ```
+
+Sign in with phantom and view your transaction history to get your wallet's address. To fund your local account, we can run the following command with your wallet's address:
+
+`solana airdrop 10 <PHANTOM_WALLET_ADDRESS> --url localhost`
+
+If you refresh your transaction history should show the updated balance in your wallet.
 
 ### On-Chain Programs
 
