@@ -23,7 +23,18 @@ A local solana test ledger can be started with
 ```
 solana-test-validator
 ```
-exposing an RPC URL entrypoint at `http://127.0.0.1:8899`. 
+exposing an RPC URL entrypoint at `http://127.0.0.1:8899`. Make sure the Solana CLI is pointing to the `localhost`
+
+```
+solana config set --url localhost
+```
+
+We should see the output confirming the CLI is pointing to our RPC URL:
+
+```
+RPC URL: http://localhost:8899
+```
+
 
 In the root directory of the project, create a `.env` with the following variables for local development:
 
