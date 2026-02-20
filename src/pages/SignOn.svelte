@@ -2,7 +2,7 @@
     // @ts-nocheck
 
     import { push } from "svelte-spa-router";
-    import { BROWSERSDK } from "../tools/universal";
+    import { BROWSERSDK } from "../tools/authorization";
     import GlowingButton from "../lib/CustomButtom.svelte";
     import GitButton from "../lib/GitButton.svelte";
     import GlowingToken from "../lib/GlowingToken.svelte";
@@ -25,7 +25,7 @@
 <br />
 <br />
 <div class="app-footer">
-        We provide a simple, open-source platform for in-game asset exchange.
+        DEMO: View current transaction history on Solana Devnet.
 </div>
 <br/>
 <GlowingButton
