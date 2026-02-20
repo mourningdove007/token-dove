@@ -1,4 +1,3 @@
-
 import { BrowserSDK, AddressType } from "@phantom/browser-sdk";
 
 export const phantomId = import.meta.env.VITE_PHANTOM_PROJECT_ID;

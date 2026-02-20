@@ -1,8 +1,6 @@
 <script>
-    // @ts-nocheck
-
     import { onMount } from "svelte";
-    import { BROWSERSDK } from "../tools/universal";
+    import { BROWSERSDK } from "../tools/authorization";
 
     import {
         Connection,
@@ -166,18 +164,18 @@
         position: relative;
         border-radius: 12px;
         margin-top: 1rem;
-        overflow: visible; /* allow glow to extend beyond square */
+        overflow: visible;
     }
 
     .transaction-wrapper::before {
         content: "";
         position: absolute;
-        inset: -10px; /* glow outside the square */
-        background: #00ffff; /* glow color */
+        inset: -10px;
+        background: #00ffff;
         filter: blur(18px);
         opacity: 0.55;
         border-radius: 14px;
-        z-index: 0; /* behind the square */
+        z-index: 0;
         animation: pulse 4s ease-in-out infinite;
         transition: opacity 0.25s ease;
     }
@@ -188,12 +186,12 @@
 
     .transaction-content {
         position: relative;
-        z-index: 1; /* above the glow */
-        background: #06001a; /* solid square background */
+        z-index: 1;
+        background: #06001a;
         padding: 1rem;
         text-align: left;
         border-radius: 12px;
-        border: 1px solid rgba(0, 255, 255, 0.6); /* optional neon border */
+        border: 1px solid rgba(0, 255, 255, 0.6);
         color: #00ffff;
         display: flex;
         opacity: 1;

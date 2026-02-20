@@ -2,7 +2,7 @@
     // @ts-nocheck
 
     import { push } from "svelte-spa-router";
-    import { BROWSERSDK } from "../tools/universal";
+    import { BROWSERSDK } from "../tools/authorization";
     import GlowingButton from "../lib/CustomButtom.svelte";
     import GitButton from "../lib/GitButton.svelte";
     import GlowingToken from "../lib/GlowingToken.svelte";
