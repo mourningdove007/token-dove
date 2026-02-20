@@ -25,7 +25,7 @@
 <br />
 <br />
 <div class="app-footer">
-        We provide a simple, open-source platform for in-game asset exchange.
+        DEMO: View current transaction history on Solana Devnet.
 </div>
 <br/>
 <GlowingButton
